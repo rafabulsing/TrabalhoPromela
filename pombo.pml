@@ -76,20 +76,31 @@ init {
 
 }
 
+
+
+// 1. Eventualmente, todas as mensagens serão escritas no Pombo.
+#define colou_todas (colou == N_MSG * N_ESC)
+ltl p1 { <>colou_todas }
+
+// 2. Todas as mensagens coladas no pombo, eventualmente chegará no Ponto B.
+#define chegou_todas (chegou == N_MSG * N_ESC)
+ltl p2 { <>chegou_todas }
+
+// 3. A quantidade de mensagens enviadas é sempre menor ou igual ao número de mensagens coladas.
+#define cola_depois_chega (chegou <= colou)
+ltl p3 { []cola_depois_chega }
+
+// 4. Nunca vai haver mais que N_MSG mensagens no pombo.
+#define limite_pombo (no_pombo <= N_MSG)
+ltl p4 { []limite_pombo }
+
+// 5. Não é possível dois processos escreverem ao mesmo tempo.
+#define so_um_escreve (no_in <= 1)
+ltl p5 { []so_um_escreve }
+
+// 6. Sempre o envio de uma mensagem precede o recebimento da mesma.
 #define ENV_66 (MSG_ENV == 66)
 #define REC_66 (MSG_REC == 66)
+//ltl p6 { [](!REC_66 || (REC_66 && ENV_66)) }
+ltl p6 { [](REC_66 -> ENV_66) }
 
-#define colou_todas (colou == N_MSG * N_ESC)
-ltl{ <>colou_todas }
-
-#define chegou_todas (chegou == N_MSG * N_ESC)
-ltl{ <>chegou_todas }
-
-#define cola_depois_chega (chegou <= colou)
-ltl{ []cola_depois_chega }
-
-#define limite_pombo (no_pombo <= N_MSG)
-ltl{ []limite_pombo }
-
-#define so_um_escreve (no_in <= 1)
-ltl{ []so_um_escreve }

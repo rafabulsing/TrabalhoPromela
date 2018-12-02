@@ -1,0 +1,50 @@
+never p1 {    /* !(<> ((colou==(5*3)))) */
+accept_init:
+T0_init:
+	do
+	:: (! (((colou==(5*3))))) -> goto T0_init
+	od;
+}
+never p2 {    /* !(<> ((chegou==(5*3)))) */
+accept_init:
+T0_init:
+	do
+	:: (! (((chegou==(5*3))))) -> goto T0_init
+	od;
+}
+never p3 {    /* !([] ((chegou<=colou))) */
+T0_init:
+	do
+	:: atomic { (! (((chegou<=colou)))) -> assert(!(! (((chegou<=colou))))) }
+	:: (1) -> goto T0_init
+	od;
+accept_all:
+	skip
+}
+never p4 {    /* !([] ((no_pombo<=5))) */
+T0_init:
+	do
+	:: atomic { (! (((no_pombo<=5)))) -> assert(!(! (((no_pombo<=5))))) }
+	:: (1) -> goto T0_init
+	od;
+accept_all:
+	skip
+}
+never p5 {    /* !([] ((no_in<=1))) */
+T0_init:
+	do
+	:: atomic { (! (((no_in<=1)))) -> assert(!(! (((no_in<=1))))) }
+	:: (1) -> goto T0_init
+	od;
+accept_all:
+	skip
+}
+never p6 {    /* !([] ((! ((MSG_REC==66))) || (((MSG_REC==66)) && ((MSG_ENV==66))))) */
+T0_init:
+	do
+	:: atomic { (! (((! ((MSG_REC==66))) || (((MSG_REC==66)) && ((MSG_ENV==66)))))) -> assert(!(! (((! ((MSG_REC==66))) || (((MSG_REC==66)) && ((MSG_ENV==66))))))) }
+	:: (1) -> goto T0_init
+	od;
+accept_all:
+	skip
+}
